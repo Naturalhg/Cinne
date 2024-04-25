@@ -1,0 +1,44 @@
+<cinne>
+    <a if={props.type == 'movie'} href="#/show/{props.cinne.id}" class="poster-container">
+        <img src='https://image.tmdb.org/t/p/w300{props.cinne.poster_path}'
+            onerror="this.src = 'img/not_found_2.png';" class="poster">
+    </a>
+    <a if={props.type == 'tv'} href="#/tvshow/{props.cinne.id}" class="poster-container">
+        <img src='https://image.tmdb.org/t/p/w300{props.cinne.poster_path}'
+            onerror="this.src = 'img/not_found_2.png';" class="poster">
+    </a>
+    <div class="details">
+        <div class="flex info">
+            <img src="img/star.png" class="star">
+            <label>{props.cinne.vote_average}/10</label>
+            <label>{props.cinne.vote_count} votes</label>
+            <label if={props.type == 'movie'}>{props.getYear(props.cinne.release_date)}</label>
+            <label if={props.type == 'tv'}>{props.getYear(props.cinne.first_air_date)}</label>
+        </div>
+        <a href="#/show/{props.cinne.id}"><p class="cinne-title" if={props.type == 'movie'}>{props.cinne.title}</p></a>
+        <a href="#/tvshow/{props.cinne.id}"><p class="cinne-title" if={props.type == 'tv'}>{props.cinne.name}</p></a>
+        <div class="flex">
+            <div class="genre" each={genre in getGendersFromIds()}>{genre}</div>
+        </div>
+    </div>
+
+    <script>
+
+        export default {
+            getGendersFromIds() {
+                let genres = []
+                let allGenders = JSON.parse(localStorage.getItem("all_genders"))
+                if (this.props.cinne.genre_ids) {
+                    for(let i=0; i<allGenders.length; i++) {
+                        for(let j=0; j<this.props.cinne.genre_ids.length; j++) {
+                            if (allGenders[i].id == this.props.cinne.genre_ids[j]) {
+                                genres.push(allGenders[i].name);
+                            }
+                        }
+                    }
+                }
+                return genres
+            }
+        }
+    </script>
+</cinne>

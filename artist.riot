@@ -1,0 +1,22 @@
+<artist>
+    <a href="#/artist/{props.artist.id}" class="poster-container">
+        <img src='https://image.tmdb.org/t/p/w500{props.artist.profile_path}'
+            onerror="this.src = 'img/not_found_2.png';" class="poster">
+    </a>
+    <div class="details">
+        <div class="flex info">
+            <img src="img/star.png" class="star">
+            <label if={props.langue == "fr"}>{props.artist.popularity} vues</label>
+            <label if={props.langue == "en-US"}>{props.artist.popularity} views</label>
+        </div>
+        <a href="#/artist/{props.artist.id}"><p class="cinne-title" if={props.artist.name}>{props.artist.name}</p></a>
+        <p class="department">{props.artist.known_for_department}</p>
+    </div>
+
+    <script>
+    export default {
+            onBeforeMount(props, state) {
+            },
+        }
+    </script>
+</artist>

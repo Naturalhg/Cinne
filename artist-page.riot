@@ -1,0 +1,262 @@
+<artist-page>
+    <img class="landing" src="img/artist.png"
+            onerror="this.src = 'img/back_not_found.png'">
+    <button class="back previous" onclick={getBack}><img src="img/back.png" class="back-image"></button>
+    <button class="back back-home" onclick={getHome}><img src="img/accueil.png" class="back-image"></button>
+    <button class="back back-top invisible" onclick={props.scrollToTop} id="gotop"><img src="img/gotop.png" class="back-image"></button>
+    <div class="cinne-page-container wrapper">
+        <img class="artist" src="https://image.tmdb.org/t/p/w500/{state.artist.profile_path}"
+                onerror="this.src = 'img/not_found_2.png';">
+        <div class="artist-contacts flex">
+            <img class="contacts" src="img/facebook.png">
+            <img class="contacts" src="img/twitter.png">
+            <img class="contacts" src="img/instagram.png">
+            <img class="contacts" src="img/site.png">
+        </div>
+        <div></div>
+        <div class="artist-info">
+            <!-- Titre d'un artiste -->
+            <h1>{state.artist.name}</h1>
+            <div class="flex genres">
+                <p if={state.artist.known_for_department} class="genre time">{state.artist.known_for_department}</p>
+                <p if={state.artist.gender == 2 && state.artist.birthday} class="date"><b class="low" if={props.langue == "fr"}>Né le </b>
+                        <b class="low" if={props.langue == "en-US"}>Born on </b>{props.getFullDate(state.artist.birthday)}</p>
+                <p if={state.artist.gender == 1 && state.artist.birthday} class="date"><b class="low" if={props.langue == "fr"}>Née le </b>
+                        <b class="low" if={props.langue == "en-US"}>Born on </b>{props.getFullDate(state.artist.birthday)}</p>
+            </div>
+            <div class="flex genres" if={state.artist.place_of_birth}>
+                <p class="date"><b class="low" if={props.langue == "fr"}>Ville de naissance </b><b class="low" if={props.langue == "en-US"}>Place of birth </b>: {state.artist.place_of_birth}</p>
+            </div>
+            <div class="flex genres">
+                <p if={state.artist.gender == 2 && state.artist.deathday} class="date"><b class="low" if={props.langue == "fr"}>Décédé le </b>
+                        <b class="low" if={props.langue == "en-US"}>Died on </b>{props.getFullDate(state.artist.deathday)}</p>
+                <p if={state.artist.gender == 1 && state.artist.deathday} class="date"><b class="low" if={props.langue == "fr"}>Décédée le </b>
+                        <b class="low" if={props.langue == "en-US"}>Died on </b>{props.getFullDate(state.artist.deathday)}</p>
+            </div>
+            <div if={state.artist.biography}>
+                <h3 if={props.langue == "fr"}>Biographie</h3>
+                <h3 if={props.langue == "en-US"}>Biography</h3>
+                <p class="overview">{state.artist.biography}</p>
+            </div>
+            <div class="profiles">
+                <div each={cast in state.cast} if={cast.media_type == "movie" && state.cast[0]}>
+                    <a href={"#/show/" + cast.id}><img src={"https://image.tmdb.org/t/p/w500" + cast.poster_path} title={cast.title}
+                        class="profile-photo" onerror="setTimeout(2000); this.src = 'img/not_found_2.png';"></a>
+                </div>
+                <div each={cast in state.cast} if={cast.media_type == "tv" && state.cast[0]}>
+                    <a href={"#/tvshow/" + cast.id}><img src={"https://image.tmdb.org/t/p/w500" + cast.poster_path} title={cast.name}
+                        class="profile-photo" onerror="setTimeout(2000); this.src = 'img/not_found_2.png';"></a>
+                </div>
+            </div>
+            <div class="wrapper cinne-top casting">
+                <div class="flex genres">
+                    <p class="casted" if={props.langue == "fr" && state.length > 1}>{state.length} &nbsp; Interprétations</p>
+                    <p class="casted" if={props.langue == "fr" && state.length <= 1}>{state.length} &nbsp; Interprétation</p>
+                    <p class="casted" if={props.langue == "en-US" && state.length > 1}>{state.length} &nbsp; Performances</p>
+                    <p class="casted" if={props.langue == "en-US" && state.length <= 1}>{state.length} &nbsp; Performance</p>
+                </div>
+                <div class="flex cast">
+                    <label class="check" if={props.langue == "fr"}>Film<input type="checkbox" onclick={toggleType} id="movie"><span class="checkmark"></span></label>
+                    <label class="check" if={props.langue == "fr"}>Série<input type="checkbox" onclick={toggleType} id="tv"><span class="checkmark"></span></label>
+                    <label class="check" if={props.langue == "en-US"}>Movie<input type="checkbox" onclick={toggleType} id="movie"><span class="checkmark"></span></label>
+                    <label class="check" if={props.langue == "en-US"}>TV<input type="checkbox" onclick={toggleType} id="tv"><span class="checkmark"></span></label>
+                </div>
+            </div>
+            <h2 class="credits" if={props.langue == "fr" &&state.cast_next[0] && state.cast_length != 0}>Distribution</h2>
+            <h2 class="credits" if={props.langue == "en-US" && state.cast_next[0] && state.cast_length != 0}>Cast</h2>
+            <div class="wrapper cinne-top" each={cast in state.cast_next} if={state.cast_next[0]}>
+                <div class="flex genres cast-details">
+                    <p if={cast.media_type == "movie" && cast.release_date && (state.sort == 0 || state.sort == 1 || state.sort == 3)}>{props.getYear(cast.release_date)}</p>
+                    <p if={cast.media_type == "tv" && cast.first_air_date && (state.sort == 0 || state.sort == 2 || state.sort == 3)}>{props.getYear(cast.first_air_date)}</p>
+                    <a href={"#/show/" + cast.id}><p if={cast.media_type == "movie" && (state.sort == 0 || state.sort == 1 || state.sort == 3)} class="bright">{cast.title}</p></a>
+                    <a href={"#/tvshow/" + cast.id}><p if={cast.media_type == "tv" && (state.sort == 0 || state.sort == 2 || state.sort == 3)} class="bright bright-tv">{cast.name}</p></a>
+                </div>
+                <p class="date" if={cast.media_type == "movie" && (state.sort == 0 || state.sort == 1 || state.sort == 3)}>{cast.character}</p>
+                <p class="date" if={cast.media_type == "tv" && (state.sort == 0 || state.sort == 2 || state.sort == 3)}>{cast.character}</p>
+            </div>
+            <h2 class="credits" if={props.langue =="fr" && state.crew[0] && state.crew_length != 0}>Production</h2>
+            <h2 class="credits" if={props.langue =="en-US" && state.crew[0] && state.crew_length != 0}>Crew</h2>
+            <div class="wrapper cinne-top" each={crew in state.crew} if={state.crew[0]}>
+                <div class="flex genres cast-details">
+                    <p if={crew.media_type == "movie" && crew.release_date && (state.sort == 0 || state.sort == 1 || state.sort == 3)}>{props.getYear(crew.release_date)}</p>
+                    <p if={crew.media_type == "tv" && crew.first_air_date && (state.sort == 0 || state.sort == 2 || state.sort == 3)}>{props.getYear(crew.first_air_date)}</p>
+                    <a href={"#/show/" + crew.id}><p if={crew.media_type == "movie" && (state.sort == 0 || state.sort == 1 || state.sort == 3)} class="bright">{crew.title}</p></a>
+                    <a href={"#/tvshow/" + crew.id}><p if={crew.media_type == "tv" && (state.sort == 0 || state.sort == 2 || state.sort == 3)} class="bright bright-tv">{crew.name}</p></a>
+                </div>
+                <p class="date" if={crew.media_type == "movie" && (state.sort == 0 || state.sort == 1 || state.sort == 3)}>{crew.job}</p>
+                <p class="date" if={crew.media_type == "tv" && (state.sort == 0 || state.sort == 2 || state.sort == 3)}>{crew.job}</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+
+        export default {
+            onBeforeMount(props, state) {
+                this.state = {
+                    artist: {},
+                    credits: [],
+                    cast: [],
+                    cast_next: [],
+                    crew: [],
+                    sort: 0,
+                    length: 0,
+                    cast_length: 1,
+                    crew_length: 1
+                }
+                this.updateArtist();
+            },
+
+            async updateArtist() {
+                this.update ({
+                    artist : await this.props.cinneUtils.getById('person', this.props.artist_id, this.props.langue),
+                    credits : await this.props.cinneUtils.getDetails('person', this.props.artist_id, 'combined_credits', this.props.langue)
+                })
+                while (this.state.length == 0 && this.state.credits.cast.length != 0 || this.state.length == 0 && this.state.credits.crew.length != 0) {
+                    if (this.state.credits.cast.length != 0) {
+                        this.state.length = this.state.credits.cast.length;
+                        this.state.cast = this.state.credits.cast;
+                        this.sortByPopularity(this.state.cast);
+                        this.state.cast = this.state.cast.slice(0, 5);
+                        this.state.cast_next = this.state.credits.cast;
+                        this.sortByYear(this.state.cast_next);
+                    }
+                    if (this.state.credits.crew.length != 0) {
+                        this.state.crew = this.state.credits.crew;
+                        this.state.length += this.state.crew.length;
+                        this.sortByYear(this.state.crew);
+                    }
+                    this.updateArtist();
+                }
+            },
+
+            toggleType(e) {
+                if (e.target.id == "movie") {
+                    if (this.state.sort == 0) {
+                        this.state.sort = 1;
+                    }
+                    else if (this.state.sort == 1) {
+                        this.state.sort = 0;
+                    }
+                    else if (this.state.sort == 2) {
+                        this.state.sort = 3;
+                    } else {
+                        this.state.sort = 2;
+                    }
+                }
+                else if (e.target.id == "tv") {
+                    if (this.state.sort == 0) {
+                        this.state.sort = 2;
+                    }
+                    else if (this.state.sort == 1) {
+                        this.state.sort = 3;
+                    }
+                    else if (this.state.sort == 2) {
+                        this.state.sort = 0;
+                    } else {
+                        this.state.sort = 1;
+                    }
+                }
+                this.updateLength();
+                this.update();
+            },
+
+            sortByPopularity(toSort) {
+                toSort.sort(function (a, b) {
+                    return a.popularity - b.popularity;
+                });
+                toSort.reverse();
+            },
+
+            sortByYear(toSort) {
+                toSort.sort(function (a, b) {
+                    if (a.media_type == "movie" && b.media_type == "movie" && a.release_date && b.release_date) {
+                        return new Date(a.release_date) - new Date(b.release_date);
+                    } else if (a.media_type == "movie" && b.media_type == "tv" && a.release_date && b.first_air_date) {
+                        return new Date(a.release_date) - new Date(b.first_air_date);
+                    } else if (a.media_type == "tv" && b.media_type == "movie" && a.first_air_date && b.release_date) {
+                        return new Date(a.first_air_date) - new Date(b.release_date);
+                    } else if (a.media_type == "tv" && b.media_type == "tv" && a.first_air_date && b.first_air_date) {
+                        return new Date(a.first_air_date) - new Date(b.first_air_date);
+                    }
+                    // si pas de date
+                    else if (a.media_type == "movie" && b.media_type == "movie" && !a.release_date
+                            || a.media_type == "movie" && b.media_type == "tv" && !a.release_date
+                            || a.media_type == "tv" && b.media_type == "movie" && !a.first_air_date
+                            || a.media_type == "tv" && b.media_type == "tv" && !a.first_air_date) {
+                        return new Date('1000-01-01') - new Date('3000-01-01');
+                    }
+                });
+                toSort.reverse();
+            },
+
+            updateLength() {
+                let length = 0;
+                if (this.state.credits.cast.length != 0) {
+                    this.state.cast_length = 1;
+                    if (this.state.sort == 1) {
+                        for (let i=0;i<this.state.credits.cast.length;i++) {
+                            if (this.state.credits.cast[i].media_type == "movie") {
+                                length++;
+                            }
+                        }
+                        if (length == 0) {
+                            this.state.cast_length = 0;
+                        }
+                    } else if (this.state.sort == 2) {
+                        for (let i=0;i<this.state.credits.cast.length;i++) {
+                            if (this.state.credits.cast[i].media_type == "tv") {
+                                length++;
+                            }
+                        }
+                        if (length == 0) {
+                            this.state.cast_length = 0;
+                        }
+                    } else if (this.state.sort == 0 || this.state.sort == 3) {
+                        length = this.state.credits.cast.length;
+                    }
+                }
+                let cast_length = length;
+                if (this.state.credits.crew.length != 0) {
+                    this.state.crew_length = 1;
+                    if (this.state.sort == 1) {
+                        for (let i=0;i<this.state.credits.crew.length;i++) {
+                            if (this.state.credits.crew[i].media_type == "movie") {
+                                length++;
+                            }
+                        }
+                        if (cast_length == length) {
+                            this.state.crew_length = 0;
+                        }
+                    } else if (this.state.sort == 2) {
+                        for (let i=0;i<this.state.credits.crew.length;i++) {
+                            if (this.state.credits.crew[i].media_type == "tv") {
+                                length++;
+                            }
+                        }
+                        if (cast_length == length) {
+                            this.state.crew_length = 0;
+                        }
+                    } else if (this.state.sort == 0 || this.state.sort == 3) {
+                        length += this.state.credits.crew.length;
+                    }
+                }
+                this.state.length = length;
+            },
+
+            getBack() {
+                this.props.updateCinneList();
+                history.back();
+            },
+
+            getHome() {
+                this.props.updateCinneList();
+                if (localStorage.getItem("type") != 'artist') {
+                    window.location.href= '';
+                } else {
+                    window.location.href= '#/artist';
+                }
+            }
+        }
+    </script>
+</artist-page>

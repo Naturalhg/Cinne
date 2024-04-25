@@ -1,0 +1,137 @@
+<cinne-page>
+    <img class="landing" src="https://image.tmdb.org/t/p/w500/{state.cinne.backdrop_path}"
+            onerror="this.src = 'img/back_not_found.png';">
+    <button class="back previous" onclick={getBack}><img src="img/back.png" class="back-image"></button>
+    <button class="back back-home" onclick={getHome}><img src="img/accueil.png" class="back-image"></button>
+    <button class="back back-top invisible" onclick={props.scrollToTop} id="gotop"><img src="img/gotop.png" class="back-image"></button>
+    <div class="cinne-page-container wrapper">
+        <img class="cinne" src="https://image.tmdb.org/t/p/w500/{state.cinne.poster_path}"
+                onerror="this.src='img/not_found_2.png';">
+        <div class="cinne-rate flex">
+            <div class="rate flex">
+                <img src="img/star.png" class="star">
+                <p>{Math.floor(state.cinne.vote_average)} / 10</p>
+            </div>
+            <p>{state.cinne.vote_count} votes</p>
+        </div>
+        <div class="cinne-rate companies flex">
+            <p class="company" each={company in state.cinne.production_companies}>{company.name}</p>
+        </div>
+        <div></div>
+        <div class="cinne-info">
+            <!-- Titre d'un film -->
+            <h1 if={props.type == 'movie'} id="topp">{state.cinne.title}</h1>
+            <h1 if={props.type == 'tv'} id="topp">{state.cinne.name}</h1>
+            <div class="wrapper cinne-top">
+                <div class="flex genres">
+                    <p if={props.type == "movie" && state.cinne.runtime <= 60} class="genre time" >{state.cinne.runtime} min</p>
+                    <p if={props.type == "movie" && state.cinne.runtime > 60} class="genre time" >{(state.cinne.runtime - (state.cinne.runtime % 60)) / 60} h {state.cinne.runtime % 60}</p>
+                    <p if={props.type == "tv"} class="genre time" >S &nbsp;{state.cinne.number_of_seasons}</p>
+                    <p if={props.type == "tv"} class="genre time" >EP &nbsp;{state.cinne.number_of_episodes}</p>
+                    <p class="genre time" each={country in state.cinne.production_countries}>{country.name}</p>
+                    <p class="genre language" each={language in state.cinne.spoken_languages}>{(language.iso_639_1).toUpperCase()}</p>
+                </div>
+                <p class="date" if={props.type == 'movie' && state.cinne.release_date}>{props.getFullDate(state.cinne.release_date)}</p>
+                <p class="date" if={props.type == 'tv' && state.cinne.first_air_date}>{props.getFullDate(state.cinne.first_air_date)}</p>
+            </div>
+            <div class="wrapper cinne-top">
+                <div class="flex genres">
+                    <div class="genre" each={genre in state.cinne.genres}>{genre.name}</div>
+                </div>
+            </div>
+            <div if={props.type == "movie" && state.credits.crew} class="profiles">
+                <p class="crew"><b class="low" if={props.langue == "fr"}>Direction</b><b class="low" if={props.langue == "en-US"}>Directed by</b>
+                            &nbsp;:&nbsp;&nbsp;<a href={"#/artist/" + crew.id} if={crew.job == "Director"}
+                            each={crew in state.credits.crew} class="link">&nbsp;{crew.name},</a>...</p>
+            </div>
+            <div if={props.type == "tv" && state.cinne.created_by && state.cinne.created_by[0]} class="profiles">
+                <p class="crew"><b class="low" if={props.langue == "fr"}>Créée par</b><b class="low" if={props.langue == "en-US"}>Created by</b>&nbsp;&nbsp;:&nbsp;&nbsp;<a href={"#/artist/" + crew.credit_id} each={crew in state.cinne.created_by}
+                            class="link">&nbsp;{crew.name},</a></p><p class="crew">...</p>
+            </div>
+            <div class="profiles" if={state.credits.cast && state.credits.cast[0]}>
+                <p class="crew"><b class="low" if={props.langue == "fr"}>Avec</b><b class="low" if={props.langue == "en-US"}>Starring</b>&nbsp;&nbsp;:<a each={cast in state.credits.cast}>&nbsp;&nbsp;<a href={"#/artist/" + cast.id}
+                        class="link">{cast.name},</a></a>...</p>
+            </div>
+            <div class="profiles" if={state.credits.cast}>
+                <div each={cast in state.credits.cast}>
+                    <a href={"#/artist/" + cast.id}><img src={"https://image.tmdb.org/t/p/w185/" + cast.profile_path} title={cast.name}
+                        class="profile-photo" onerror="setTimeout(2000); this.src = 'img/not_found_2.png';"></a>
+                </div>
+            </div>
+            <p class="overview" if={state.cinne.overview}>{state.cinne.overview}</p>
+            <h1 class="trailer-title" if={props.langue == "fr" && state.videos && state.videos.key && state.videos.site == "YouTube"}>Bande-annonce</h1>
+            <h1 class="trailer-title" if={props.langue == "en-US" && state.videos && state.videos.key && state.videos.site == "YouTube"}>Trailer</h1>
+            <iframe if={state.videos && state.videos.key && state.videos.site == "YouTube"} src={"https://www.youtube.com/embed/" + state.videos.key} class="trailer"></iframe>
+
+            <!-- Distribution -->
+            <h1 class="distrib" if={props.langue == "fr" && state.credits_next && state.credits_next[0]}>Distribution</h1>
+            <h1 class="distrib" if={props.langue == "en-US" && state.credits_next && state.credits_next[0]}>Casting</h1>
+            <br><br>
+            <div class="profiles" if={state.credits_next[0]}>
+                <div each={cast in state.credits_next}>
+                    <a href={"#/artist/" + cast.id} title={cast.name}><img src={"https://image.tmdb.org/t/p/w185/" + cast.profile_path} alt={cast.name}
+                        class="profile-photo" onerror="setTimeout(2000); this.src = 'img/not_found_2.png';"></a>
+                </div>
+            </div>
+
+            <!-- Production -->
+            <h1 class="distrib" if={state.credits.crew && state.credits.crew[0]}>Production</h1><br><br>
+            <div class="profiles" if={state.credits.crew}>
+                <div each={crew in state.credits.crew}>
+                    <a href={"#/artist/" + crew.id}><img src={"https://image.tmdb.org/t/p/w185/" + crew.profile_path} alt={crew.name}
+                        class="profile-photo" onerror="setTimeout(2000); this.src = 'img/not_found_2.png';"></a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+
+        export default {
+            onBeforeMount(props, state) {
+                this.state = {
+                    cinne: {},
+                    credits: [],
+                    credits_next: [],
+                    videos: []
+                }
+                this.updateCinne();
+            },
+
+            async updateCinne() {
+                this.update ({
+                    cinne : await this.props.cinneUtils.getById(this.props.type, this.props.cinne_id, this.props.langue),
+                    credits : await this.props.cinneUtils.getDetails(this.props.type, this.props.cinne_id, "credits", this.props.langue),
+                    videos : await this.props.cinneUtils.getDetails(this.props.type, this.props.cinne_id, "videos", this.props.langue)
+                })
+                if (this.state.credits.cast && this.state.credits.cast.length > 5) {
+                    this.state.credits_next = this.state.credits.cast.slice(5,15);
+                    this.state.credits.cast = this.state.credits.cast.slice(0,5);
+                    this.state.cinne.production_companies = this.state.cinne.production_companies.slice(0,5);
+                }
+                if (this.state.credits.crew) {
+                    this.state.credits.crew = this.state.credits.crew.slice(0,10);
+                }
+                if (this.state.videos.results) {
+                    this.state.videos = this.state.videos.results[0];
+                }
+                this.update();
+            },
+
+            getBack() {
+                this.props.updateCinneList();
+                history.back();
+            },
+
+            getHome() {
+                this.props.updateCinneList();
+                if (localStorage.getItem("type") != 'artist') {
+                    window.location.href= '';
+                } else {
+                    window.location.href= '#/artist';
+                }
+            }
+        }
+
+    </script>
+</cinne-page>

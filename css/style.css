@@ -1,0 +1,1047 @@
+@import url('https://fonts.googleapis.com/css2?family=Fjalla+One&family=Reem+Kufi+Ink&display=swap');
+
+/* GENERAL */
+
+* {
+    --font-color: #000000;
+    --main-color: #FCBA04;
+    --second-color: #BF211E;
+    --third-color: #1C1D21;
+    font-family: 'Reem Kufi Ink', sans-serif;
+    letter-spacing: 1px;
+    font-weight: 400;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+.wrapper {
+    display: grid;
+}
+
+.flex {
+    display: flex;
+}
+
+.fixed {
+    position: fixed;
+    top: 0;
+    width: 100%;
+}
+
+.none {
+    display: none;
+}
+
+.invisible {
+    opacity: 0.0;
+}
+
+body {
+    background: var(--font-color);
+    color: var(--main-color);
+}
+
+.background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    min-width: 100%;
+    min-height: 100%;
+}
+
+.home h1, .home h2 {
+    text-align: center;
+}
+
+h1 {
+    font-size: 50px;
+    font-weight: 600;
+}
+
+h2 {
+    margin-top: 100px;
+    font-size: 30px;
+}
+
+h3 {
+    color: white;
+}
+
+a {
+    text-decoration: none;
+}
+
+button {
+    cursor: pointer;
+}
+
+select {
+    padding: 0 0 0 8px;
+    border-radius: 7px;
+    width: 170px;
+    height: 33px;
+    align-self: center;
+    background-color: transparent;
+    border: 1px solid transparent;
+    color: #d2d1d1;
+    font-size: 14px;
+    outline: none;
+    cursor: pointer;
+    transition: .5s ease-out;
+}
+
+select:hover {
+    background-color: var(--main-color);
+    color: var(--font-color);
+    box-shadow: 0 0 6px var(--main-color);
+}
+
+select:focus {
+    background-color: var(--third-color);
+    color: white;
+    box-shadow: 0 0 10px var(--third-color);
+    border: 1px solid white;
+}
+
+input {
+    background-color: transparent;
+    border: 1px solid white;
+    border-radius: 50px;
+    color: white;
+    transition: all .5s;
+}
+
+input::-webkit-search-cancel-button {
+    display: none;
+}
+
+input::placeholder {
+    color: white;
+    opacity: 0.5;
+}
+
+input:hover {
+    border: 1px solid transparent;
+    box-shadow: 0px 0px 5px white;
+}
+
+input:focus {
+    box-shadow: 0 0 15px var(--main-color);
+    border: 1px solid transparent;
+    outline: none;
+}
+
+input:focus::placeholder {
+    color: transparent;
+}
+
+/* landing-page */
+
+.landing-page {
+    width: 100%;
+    height: 100vh;
+}
+
+.home {
+    background-image: url('../img/dune.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.back {
+    position: absolute;
+    border: 1px solid transparent;
+    background-color: transparent;
+    color: white;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    transition: all .5s;
+}
+
+.previous {
+    top: 6%;
+    left: 3%;
+}
+
+.back-home {
+    top: 6%;
+    right: 3%;
+}
+
+.back-top {
+    position: fixed;
+    bottom: 5%;
+    right: 3%;
+}
+
+.back-top .back-image {
+    width: 25px;
+    height: 25px;
+}
+
+.back:hover {
+    color: white;
+    border: 1px solid white;
+    cursor: pointer;
+}
+
+.back-image {
+    filter: blur(1px);
+    padding-top: 5px;
+    width: 20px;
+    height: 20px;
+    transition: all .5s;
+}
+
+.back:hover .back-image {
+    filter: none;
+}
+
+/* NAVBAR */
+
+nav {
+    min-width: fit-content;
+    margin: 0 0 25px 0;
+    min-height: 50px;
+    background-color: transparent;
+}
+
+.navbar-scroll {
+    top: -60px;
+    z-index: 1;
+    transition: top .5s;
+}
+
+.scrolled {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    background-color: var(--third-color);
+}
+
+.navbar {
+    gap: 40px;
+    padding-left: 5%;
+    flex-direction: row;
+}
+
+.logo-navbar {
+    width: 45px;
+    height: 45px;
+    min-width: 40px;
+    min-height: 40px;
+    margin: 5px 10px 0 0;
+}
+
+nav button {
+    padding: 7px 20px;
+    border-radius: 7px;
+    align-self: center;
+    background-color: transparent;
+    border: none;
+    color: white;
+    font-size: 14px;
+    transition: .5s ease-out;
+}
+
+nav .filtre:hover {
+    background-color: var(--main-color);
+    color: var(--font-color);
+    box-shadow: 0 0 10px var(--main-color);
+}
+
+nav .filtre:focus {
+    background-color: var(--third-color);
+    color: white;
+    box-shadow: 0 0 10px var(--third-color);
+}
+
+nav input {
+    width: 28%;
+    align-self: center;
+    padding: 6px 12px;
+    font-size: 14px;
+}
+
+nav input:focus {
+    box-shadow: 0 0 8px white;
+    border: 1px solid transparent;
+    outline: none;
+}
+
+nav input::placeholder {
+    color: white;
+    font-size: 14px;
+}
+
+nav .langue {
+    margin-left: auto;
+    margin-right: 40px;
+    font-size: 14px;
+    border-radius: 5px;
+    padding: 3px 7px;
+    color:#c0c0c0;
+    background-color:#2e2e2e;
+    border: 1px solid #434343;
+    cursor: pointer;
+    transition: all .4s;
+}
+
+nav .langue:hover {
+    background-color:var(--third-color);
+    color: white;
+    border: 1px solid white;
+}
+
+nav .langue:active {
+    border: 1px solid var(--main-color);
+    color: var(--main-color);
+}
+
+/* SIDE-BAR */
+
+.side-bar {
+    position: fixed;
+    top: 0;
+    left: -400px;
+    min-width: 250px;
+    max-width: 250px;
+    height: 100%;
+    padding: 50px 25px 0 40px;
+    background-color: var(--third-color);
+    z-index: 2;
+    transition: all .5s;
+}
+
+.side-bar.active {
+    left: 0;
+}
+
+.side-bar .close {
+    position: absolute;
+    top: 15px;
+    right: 25px;
+    opacity: 0.4;
+    font-size: 40px;
+    color: white;
+    cursor: pointer;
+}
+
+.menu-mode {
+    position: absolute;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #000000cc;
+    z-index: 1;
+    transition: all .3s;
+}
+
+.side-bar a {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    color: white;
+    opacity: 0.7;
+    line-height: 10px;
+    cursor: pointer;
+    transition: all .2s;
+}
+
+.side-bar a:hover {
+    opacity: 1;
+}
+
+.side-bar .icon {
+    width: 20px;
+    height: 20px;
+}
+
+.side-bar p {
+    color: #757575;
+}
+
+.genres {
+    flex-wrap: wrap;
+    flex-direction: row;
+}
+
+.side-bar .genre {
+    margin: 3% 3% 0 0;
+    font-size: 12px;
+    border-radius: 5px;
+    padding: 3px 7px;
+    color:#c0c0c0;
+    background-color:#2e2e2e;
+    text-wrap: nowrap;
+    border: 1px solid #434343;
+    cursor: pointer;
+    transition: all .2s;
+}
+
+.side-bar .genre:hover {
+    background-color:var(--third-color);
+    color: white;
+    border: 1px solid white;
+}
+
+.side-bar .genre:active {
+    border: 1px solid var(--main-color);
+    color: var(--main-color);
+}
+
+.genre.activated {
+    background-color: var(--main-color);
+    color: var(--third-color);
+    box-shadow: 0 0 5px var(--main-color);
+    border: 1px solid transparent;
+}
+
+.genre.activated:hover {
+    background-color: var(--main-color);
+    color: var(--third-color);
+    box-shadow: 0 0 5px var(--main-color);
+    border: 1px solid transparent;
+}
+
+.genre.activated:active {
+    background-color: var(--third-color);
+    border: 1px solid white;
+    color: white;
+    box-shadow: none;
+}
+
+.close-filters {
+    width: 100%;
+    height: 100%;
+}
+
+/* LANDING */
+
+.landing {
+    text-align: center;
+    color: var(--main-color);
+    padding-top: 5px;
+}
+
+.landing input {
+    width: 400px;
+    margin-top: 10px;
+    padding: 10px 15px 10px 15px;
+    font-size: 17px;
+}
+
+.landing input::placeholder {
+    color: white;
+    font-size: 17px;
+}
+
+/* TITLE */
+
+cinne-app h2 {
+    text-align: center;
+}
+
+/* PAGINATION */
+
+.filters {
+    margin: 10px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1em;
+}
+
+.filters * {
+    background-color: var(--third-color);
+    color: white;
+    font-size: 20px;
+    border: none;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    transition: all .5s;
+}
+
+.filters *:hover {
+    background-color: var(--font-color);
+    cursor: pointer;
+}
+
+.filters .current {
+    background-color: var(--main-color);
+    color: var(--font-color);
+}
+
+.pending {
+    background-color: var(--font-color);
+    cursor:none;
+}
+
+/* CINNE AND ARTIST */
+
+.cinne-container {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    justify-content: center;
+    margin: 2% 3%;
+}
+
+cinne, artist {
+    display: flex;
+    flex-direction: column;
+    margin: 3% 1%;
+    background-color: var(--third-color);
+    border-radius: 15px 15px 10px 10px;
+    max-width: 18%;
+    min-width: 250px;
+    overflow: hidden;
+}
+
+cinne .poster-container {
+    min-height: 78%;
+    max-height: 78%;
+}
+
+artist .poster-container {
+    min-height: 80%;
+    max-height: 80%;
+}
+
+cinne .poster, artist .poster {
+    border-radius: 10px 10px 0 0;
+    width: 100%;
+    height: 100%;
+    transition: all .3s ease-in-out;
+}
+
+cinne .poster:hover, artist .poster:hover {
+    transform: scale(1.1) translateY(-15px);
+}
+
+cinne .details, artist .details {
+    padding: 0 5px 0 12px;
+}
+
+cinne .info, artist .info {
+    flex-wrap: wrap;
+}
+
+cinne .star, artist .star {
+    width: 17px;
+    height: 17px;
+    padding: 1em 2px 0 0;
+}
+
+cinne label, artist label {
+    padding: 1em 15px 0 0;
+    font-size: 13px;
+    color: gray;
+}
+
+cinne .cinne-title, artist .cinne-title {
+    color: white;
+    font-size: 14px;
+    line-height: 20px;
+    margin: 3px 0;
+    width: 95%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-wrap: nowrap;
+    white-space: nowrap;
+    cursor: pointer;
+    transition: all .3s;
+}
+
+cinne .cinne-title:hover, artist .cinne-title:hover {
+    color: var(--main-color);
+}
+
+cinne .cinne-title::-webkit-scrollbar , artist .cinne-title::-webkit-scrollbar {
+    display: none;
+}
+
+.genres {
+    flex-wrap: wrap;
+    flex-direction: row;
+}
+
+.genre {
+    margin: 3% 3% 0 0;
+    font-size: 12px;
+    font-weight: 600;
+    border-radius: 5px;
+    padding: 3px 7px;
+    color: #aeadad;
+    text-wrap: nowrap;
+    white-space: nowrap;
+    background-color: #434343;
+}
+
+.gender-container {
+    grid-template-columns: repeat(2, 1fr);
+    width: 98%;
+    align-items: center;
+}
+
+artist .department {
+    color: white;
+    font-size: 12px;
+    margin-top: -1px;
+}
+
+.reset {
+    justify-self: end;
+}
+
+.reset img {
+    width: 14px;
+    height: 14px;
+    margin: 0 0 -20% 0;
+}
+
+/* CINNE PAGE */
+
+cinne-page .landing {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: -8px;
+    right: 0;
+    left: 0;
+    z-index: -1;
+    opacity: 0.2;
+    filter: blur(3px);
+}
+
+.cinne-page-container {
+    grid-template-columns: 1fr 2fr;
+    color: white;
+    height: 100vh;
+    gap: 2em;
+}
+
+.cinne-page-container .cinne {
+    position: fixed;
+    width: 18%;
+    left: 10%;
+    top: 20%;
+    border-radius: 20px;
+    margin-right: 50px;
+    z-index: 1;
+}
+
+.cinne-page-container .cinne-rate {
+    position: fixed;
+    width: 18%;
+    left: 10%;
+    top: 74%;
+    border-radius: 20px;
+    gap: 30px;
+    flex-wrap: wrap;
+    justify-content: center;
+    z-index: 1;
+}
+
+.cinne-page-container .rate {
+    align-items: center;
+}
+
+.cinne-page-container .star {
+    width: 25px;
+    height: 25px;
+    padding: 2px 5px 0 0;
+}
+
+.cinne-page-container .companies {
+    top: 87%;
+}
+
+.cinne-page-container .company {
+    margin-top: -45px;
+    font-size: 13px;
+    text-wrap: nowrap;
+    justify-self: center;
+    opacity: 0.7;
+}
+
+.cinne-page-container .cinne-info {
+    margin-top: 13%;
+    width: 86%;
+    font-size: 14px;
+    letter-spacing: 2px;
+    font-weight: 300;
+}
+
+.cinne-page-container h1 {
+    font-size: 40px;
+    line-height: 45px;
+    margin-bottom: -5px;
+}
+
+.cinne-page-container .cinne-top {
+    grid-template-columns: 10fr 1fr;
+}
+
+.cinne-page-container .genre {
+    color: var(--third-color);
+    background-color: var(--main-color);
+    text-wrap: nowrap;
+}
+
+.cinne-page-container .time {
+    color: white;
+    font-weight: 100;
+    background-color: transparent;
+}
+
+.cinne-page-container .language {
+    color: var(--main-color);
+    background-color: var(--third-color);
+}
+
+.cinne-page-container .date {
+    color: white;
+    flex-grow: 1;
+    text-align: end;
+    text-wrap: nowrap;
+    font-size: 15px;
+    margin-top: 20px;
+    margin-bottom: auto;
+}
+
+.profiles {
+    display: flex;
+    flex-wrap: wrap;
+    text-wrap: wrap;
+}
+
+.cinne-page-container .profile {
+    width: 100%;
+}
+
+.cinne-page-container .profile-photo {
+    min-width: 140px;
+    max-width: 140px;
+    min-height: 200px;
+    max-height: 200px;
+    border-radius: 15px;
+    margin: 30px 20px 5px 0;
+    transition: all .5s;
+}
+
+.cinne-page-container .profile-photo:hover {
+    transform: translateY(-10px) scale(1.1);
+}
+
+.cinne-page-container .casting {
+    margin-top: 5%;
+}
+
+.cinne-page-container .casted {
+    align-self: center;
+}
+
+.cinne-page-container .crew {
+    text-wrap: wrap;
+    margin-top: 20px;
+    margin-bottom: -5px;
+}
+
+.cinne-page-container .low {
+    opacity: 0.8;
+}
+
+.cinne-page-container .link {
+    color: white;
+    transition: all .5s;
+}
+
+.cinne-page-container .link:hover {
+    color: var(--main-color);
+}
+
+.cinne-page-container .overview {
+    word-wrap: break-word;
+    background-color: #00000085;
+    padding: 10px 15px;
+    border-radius: 10px;
+}
+
+.trailer {
+    border: none;
+    font-size: 30px;
+    color: white;
+    margin: 6% 0 0 0;
+    padding-bottom: 20px;
+    width: 100%;
+    height: 500px;
+}
+
+.cinne-page-container .distrib {
+    font-size: 30px;
+    margin-top: 5%;
+    margin-bottom: -5%;
+}
+
+/* ARTIST PAGE */
+
+artist-page .landing {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: -8px;
+    right: 0;
+    left: 0;
+    z-index: -1;
+    opacity: 0.2;
+    filter: blur(3px);
+}
+
+.cinne-page-container .artist {
+    position: fixed;
+    width: 18%;
+    left: 10%;
+    top: 20%;
+    border-radius: 20px;
+    margin-right: 50px;
+    z-index: 1;
+}
+
+.cinne-page-container .artist-contacts {
+    position: fixed;
+    width: 18%;
+    left: 10%;
+    top: 77%;
+    border-radius: 20px;
+    margin-right: 50px;
+    gap: 25px;
+    justify-content: center;
+    flex-wrap: wrap;
+    z-index: 1;
+}
+
+.cinne-page-container .contacts {
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+}
+
+.cinne-page-container .artist-info {
+    margin-top: 13%;
+    width: 86%;
+    font-size: 14px;
+    letter-spacing: 2px;
+    font-weight: 300;
+}
+
+.cinne-page-container .cast-select {
+    margin: 20px 0;
+    width: 210px;
+}
+
+.cinne-page-container .cast {
+    width: 170px;
+    margin: 20px 0;
+    gap: 30px;
+    justify-content: end;
+    align-items: center;
+}
+
+.cinne-page-container .check {
+    cursor: pointer;
+    user-select: none;
+    position: relative;
+    padding-left: 24px;
+}
+
+.cinne-page-container .check input {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+    height: 0;
+    width: 0;
+}
+
+.cinne-page-container .check .checkmark {
+    position: absolute;
+    top: 2px;
+    left: 0;
+    height: 15px;
+    width: 15px;
+    border-radius: 5px;
+    background-color: var(--third-color);
+    border: 1px solid rgba(255, 255, 255, 0.705);
+    transition: all .5s;
+}
+
+.cinne-page-container .check:hover .checkmark {
+    border: 1px solid var(--main-color);
+    box-shadow: 0 0 3px var(--main-color);
+}
+
+.cinne-page-container .check input:checked ~ .checkmark {
+    background-color: var(--main-color);
+    border: 1px solid var(--main-color);
+    box-shadow: 0 0 5px var(--main-color);
+}
+
+.cinne-page-container .checkmark:after {
+    content: "";
+    position: absolute;
+    display: none;
+}
+
+.cinne-page-container input:checked ~ .checkmark:after {
+    display: block;
+}
+
+.cinne-page-container .check .checkmark:after {
+    left: 5px;
+    top: 1px;
+    width: 3px;
+    height: 9px;
+    border: solid var(--third-color);
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+}
+
+.cinne-page-container .credits {
+    margin-top: 4%;
+}
+
+.cinne-page-container .cast-details {
+    gap: 35px;
+    align-content: center;
+    flex-wrap: nowrap;
+}
+
+.cinne-page-container .bright {
+    color: var(--main-color);
+    cursor: pointer;
+    word-wrap: wrap;
+    padding: 0 60px 30px 0;
+    transition: all .4s;
+}
+
+.cinne-page-container .bright:hover {
+    color: white;
+}
+
+.cinne-page-container .bright-tv {
+    margin-left: -35px;
+}
+
+.cinne-page-container .cinne-top .date {
+    margin-top: 14px;
+}
+
+/* FOOTER */
+
+my-footer {
+    position: relative;
+    background: var(--font-color);
+    height: 50%;
+    min-width: 100%;
+    min-height: 50%;
+    color: white;
+}
+
+.footer-logo {
+    align-self: center;
+    justify-self: center;
+}
+
+.footer .logo {
+    width: 60px;
+    height: 60px;
+    flex: 1;
+}
+
+.footer {
+    margin-left: 5%;
+    width: 87%;
+}
+
+.footer-title {
+    display: grid;
+}
+
+.footer-part {
+    display: grid;
+}
+
+.last-footer-column {
+    grid-column: 5 / 5;
+}
+
+.footer-title > a {
+    text-align: center;
+    text-decoration: none;
+    color: white;
+}
+
+.footer-title > a > h1 {
+    font-weight: 300;
+    letter-spacing: 1px;
+    font-size: 22px;
+    color: var(--main-color);
+}
+
+.footer-part > a {
+    text-align: center;
+    text-decoration: none;
+    color: white;
+}
+
+.footer-part > a > h4 {
+    font-family: 'Fjalla One';
+    font-weight: lighter;
+    font-size: 13px;
+    letter-spacing: 2px;
+}
+
+.footer-part > #void {
+    color: transparent;
+}
+
+.white-bar {
+    background-color: white;
+    width: 88%;
+    height: 2px;
+    margin: 2% 0 2% 6%;
+}
+
+.footer-rights {
+    display: flex;
+    justify-self: flex-start;
+    margin: 0 0 2% 15%;
+}
+
+.footer-rights > h5 {
+    margin: 2% 5%;
+    text-wrap: nowrap;
+    font-weight: 200;
+}
+
+.footer-logos {
+    display: grid;
+    grid-column: 2 / 2;
+    justify-self: flex-end;
+    margin-right: 18%;
+}
+
+.footer-logos > a {
+    margin: 0 20px;
+    grid-row: 1;
+}
+
+.footer-logos > a > img {
+    width: 25px;
+    height: 25px;
+}

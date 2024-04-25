@@ -1,0 +1,240 @@
+<landing>
+    <div class="landing-page home">
+        <!-- Nav -->
+        <nav id="nav" class="navbar-scroll">
+            <div class="flex navbar">
+                <a href=""><img src="img/logo-jaune.png" class="logo-navbar"></a>
+                <button onclick={toggleFilters} id="open" class="filtre" if={props.langue=="fr"}>Filtres</button>
+                <button onclick={toggleFilters} id="open" class="filtre" if={props.langue=="en-US"}>Filters</button>
+                <input placeholder="Rechercher..." type="text" class="none" id="search-bar" onkeyup={searchPressed} if={props.langue == "fr"}/>
+                <input placeholder="Search..." type="text" class="none" id="search-bar" onkeyup={searchPressed} if={props.langue == "en-US"}/>
+                <button onclick={toggleLanguage} class="langue" id="langue" value="fr">FR</button>
+            </div>
+        </nav>
+
+        <!-- Side Bar -->
+        <div id="menu">
+            <div class="side-bar" id="side-bar">
+                <a onclick={toggleFilters} class="close">&times;</a>
+                <a onclick={setFilter} id="all" href="" if={props.langue=="fr"}><img src="img/accueil.png" class="icon" id="all"><h5 id="all">Accueil</h5></a>
+                <a onclick={setFilter} id="all" href="" if={props.langue=="en-US"}><img src="img/accueil.png" class="icon" id="all"><h5 id="all">Home</h5></a>
+                <a onclick={setFilter} id="movie" href="" if={props.langue=="fr"}><img src="img/film.png" class="icon" id="movie"><h5 id="movie">Films</h5></a>
+                <a onclick={setFilter} id="movie" href="" if={props.langue=="en-US"}><img src="img/film.png" class="icon" id="movie"><h5 id="movie">Movies</h5></a>
+                <a onclick={setFilter} id="tv" href="" if={props.langue=="fr"}><img src="img/serie.png" class="icon" id="tv"><h5 id="tv">Séries</h5></a>
+                <a onclick={setFilter} id="tv" href="" if={props.langue=="en-US"}><img src="img/serie.png" class="icon" id="tv"><h5 id="tv">TV Shows</h5></a>
+                <a onclick={setFilter} id="artist" href="#/artist" if={props.langue=="fr"}><img src="img/artiste.png" class="icon" id="artist"><h5 id="artist">Artistes</h5></a>
+                <a onclick={setFilter} id="artist" href="#/artist" if={props.langue=="en-US"}><img src="img/artiste.png" class="icon" id="artist"><h5 id="artist">Artists</h5></a>
+                <p if={props.type != 'artist' && props.langue == "fr"}>Trier les résultats par</p>
+                <p if={props.type != 'artist' && props.langue == "en-US"}>Sort by</p>
+                <select onchange={setFilterValue} if={props.type != 'artist' && props.langue == "fr"}>
+                    <option>Aucun</option>
+                    <option id="affiche" value="now">À l'affiche</option>
+                    <option id="avenir" value="coming_soon">À venir</option>
+                    <option id="notes" value="top_rated">Notes</option>
+                    <option id="popularite" value="popular">Popularité</option>
+                </select>
+                <select onchange={setFilterValue} if={props.type != 'artist' && props.langue == "en-US"}>
+                    <option>None</option>
+                    <option id="affiche" value="now">Now &nbsp; Playing</option>
+                    <option id="avenir" value="coming_soon">Coming &nbsp; Soon</option>
+                    <option id="notes" value="top_rated">Top &nbsp; Rated</option>
+                    <option id="popularite" value="popular">Popular</option>
+                </select>
+                <div class="wrapper gender-container" if={props.type != 'artist' && props.langue == "fr"}><p>GENRE</p><button onclick={resetGenres} class="genre reset"><img src='img/reset.png'></button></div>
+                <div class="wrapper gender-container" if={props.type != 'artist' && props.langue == "en-US"}><p>GENDER</p><button onclick={resetGenres} class="genre reset"><img src='img/reset.png'></button></div>
+                <div class="flex genres" if={props.type != 'artist'}>
+                    <button onclick={toggleGender} class="genre" id={genre.id} value="white" name={genre.name}
+                            if={props.type == "movie"} each={genre in props.genres}>{genre.name}</button>
+                    <button onclick={toggleGender} class="genre" id={genre.id} value="white" name={genre.name}
+                            if={props.type == "tv"} each={genre in props.genres}>{genre.name}</button>
+                </div>
+            </div>
+            <div class="close-filters" onclick={toggleFilters}></div>
+        </div>
+
+        <!-- Landing -->
+        <div if={props.langue == "fr"} class="landing">
+            <h1>Films, séries, artistes...</h1>
+            <h3>Consultez vos films, séries et artistes préférés sur notre site</h3>
+            <input placeholder="Rechercher..." type="text" onkeyup={searchPressed}/>
+        </div>
+        <div if={props.langue == "en-US"} class="landing">
+            <h1>Movies, TV shows, Artists...</h1>
+            <h3>Check out your favorite movies, TV shows and artists on our website</h3>
+            <input placeholder="Search..." type="text" onkeyup={searchPressed}/>
+        </div>
+    </div>
+
+    <script>
+
+        export default {
+            onBeforeMount(props, state) {
+                this.state = {
+                    genres: []
+                }
+            },
+
+            onUpdated() {
+                this.initLand();
+            },
+
+            setFilterValue(e) {
+                localStorage.removeItem("search");
+                localStorage.setItem('currfilter', e.target.value);
+                this.props.updateCinneList();
+                this.scrollHome();
+            },
+
+            toggleLanguage(e) {
+                let langue = e.target;
+                if (langue.value == "fr") {
+                    langue.innerText = "EN";
+                    localStorage.setItem("langue", "en-US");
+                    langue.value = "en";
+                }
+                else {
+                    langue.innerText = "FR";
+                    localStorage.setItem("langue", "fr");
+                    langue.value = "fr";
+                }
+                this.props.updateCinneList();
+                this.update();
+            },
+
+            toggleFilters(e) {
+                let id = e.target.id;
+                let action = 'open';
+
+                if (JSON.stringify(id) === JSON.stringify(action)) {
+                    document.getElementById("side-bar").classList.add("active");
+                    document.getElementById("menu").classList.add("menu-mode");
+                }
+                else {
+                    document.getElementById("side-bar").classList.remove("active");
+                    document.getElementById("menu").classList.remove("menu-mode");
+                }
+            },
+
+            toggleGender(e) {
+                let genre = e.target;
+                if (localStorage.getItem("search")) {
+                    localStorage.removeItem("search");
+                    localStorage.setItem("curr_page", 1);
+                }
+                let curr_genders = JSON.parse(localStorage.getItem("genders"));
+
+                if (genre.value == "white") {
+                    genre.classList.add('activated');
+                    curr_genders.push(genre.id);
+                    localStorage.setItem("genders", JSON.stringify(curr_genders));
+                    this.props.updateCinneList();
+                    genre.value = "black";
+                }
+
+                else {
+                    genre.classList.remove('activated');
+                    const index = curr_genders.indexOf(genre.id);
+                    if (index > -1) {
+                        curr_genders.splice(index, 1);
+                    }
+                    localStorage.setItem("genders", JSON.stringify(curr_genders));
+                    this.props.updateCinneList();
+                    genre.value = "white";
+                }
+                this.scrollHome();
+            },
+
+            resetGenres() {
+                localStorage.removeItem("search");
+                localStorage.setItem("curr_page", 1)
+                let curr_genders = JSON.parse(localStorage.getItem("genders"));
+                if (curr_genders) {
+                    for (let i=0; i<curr_genders.length; i++) {
+                        let gender = document.getElementById(curr_genders[i]);
+                        if (gender && gender.value == "black") {
+                            gender.classList.remove('activated');
+                            gender.value = "white";
+                        }
+                    }
+                    localStorage.setItem("genders", JSON.stringify([]));
+                }
+                this.props.updateCinneList()
+                this.scrollHome();
+            },
+
+            initLand() {
+                let langue = document.getElementById("langue")
+                if (localStorage.getItem("langue") == "en-US") {
+                    langue.innerText = "EN";
+                    langue.value = "en";
+                } else if (localStorage.getItem("langue") == "fr") {
+                    langue.innerText = "FR";
+                    langue.value = "fr";
+                }
+                if (localStorage.getItem("type") != "artist") {
+                    let curr_genders = JSON.parse(localStorage.getItem("genders"));
+                    if (curr_genders.length) {
+                        for (let i=0; i<curr_genders.length; i++) {
+                            let gender = document.getElementById(curr_genders[i]);
+                            if (gender && gender.value == "white") {
+                                gender.classList.add('activated');
+                                gender.value = "black";
+                            }
+                        }
+                    } else {
+                        let all_genders = JSON.parse(localStorage.getItem("all_genders"));
+                        for (let i=0; i<all_genders.length; i++) {
+                            let gender = document.getElementById(all_genders[i].id);
+                            if (gender && gender.value == "black") {
+                                gender.classList.remove('activated');
+                                gender.value = "white";
+                            }
+                        }
+                    }
+                }
+            },
+
+            setFilter(e) {
+                localStorage.removeItem("search");
+                switch(e.target.id) {
+                    case "all" :
+                        localStorage.setItem("type", "movie");
+                        break
+                    case "movie" :
+                        localStorage.setItem("type", "movie");
+                        break
+                    case "tv" :
+                        localStorage.setItem("type", "tv");
+                        break
+                    case "artist" :
+                        localStorage.setItem("type", "artist");
+                        localStorage.setItem("currfilter", "");
+                        break
+                }
+                this.resetGenres();
+                this.scrollHome();
+            },
+
+            searchPressed(e) {
+                if(e.key === 'Enter') {
+                    localStorage.setItem("genders", JSON.stringify([]));
+                    this.initLand();
+                    let query = e.target.value;
+                    localStorage.setItem("curr_page", 1)
+                    if (query != '') {
+                        localStorage.setItem("search", query);
+                    } else {
+                        localStorage.removeItem("search");
+                    }
+                    this.props.updateCinneList();
+                    this.scrollHome();
+                }
+            },
+
+            scrollHome() {
+                $('html,body').animate({scrollTop: $("#home").offset().top}, 'fast');
+            }
+        }
+
+    </script>
+</landing>

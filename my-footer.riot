@@ -1,0 +1,91 @@
+<my-footer>
+    <div class="wrapper footer">
+        <a href="" onclick={setFilter} class="footer-logo"><img src="img/logo-jaune.png" id="all" class="logo"></a>
+        <div class="footer-title">
+            <a href="" onclick={setFilter}><h1 if={props.langue == "fr"} id="all" >Accueil</h1><h1 if={props.langue == "en-US"} id="all">Home</h1></a>
+        </div>
+        <div class="footer-title">
+            <a href="" onclick={setFilter}><h1 if={props.langue == "fr"} id="movie">Films</h1><h1 if={props.langue == "en-US"} id="movie">Movies</h1></a>
+        </div>
+        <div class="footer-title">
+            <a href="" onclick={setFilter}><h1 if={props.langue == "fr"} id="tv">Séries</h1><h1 if={props.langue == "en-US"} id="tv">TV Shows</h1></a>
+        </div>
+        <div class="footer-title">
+            <a href="#/artist" onclick={setFilter}><h1 if={props.langue == "fr"} id="artist">Artistes</h1><h1 if={props.langue == "en-US"} id="artist">Artists</h1></a>
+        </div>
+        <div></div>
+        <div class="footer-part">
+            <a href="" onclick={setFilter}><h4 if={props.langue == "fr"} id="movie">Films</h4><h4 if={props.langue == "en-US"} id="movie">Movies</h4></a>
+            <a href="" onclick={setFilter}><h4 if={props.langue == "fr"} id="tv">Séries</h4><h4 if={props.langue == "en-US"} id="tv">TV Shows</h4></a>
+            <h4 id="void"></h4><h4 id="void"></h4>
+        </div>
+        <div class="footer-part">
+            <a href="" onclick={setFilterValue}><h4 if={props.langue == "fr"} id="movie" title="top_rated">Notes</h4><h4 if={props.langue == "en-US"} id="movie" title="top_rated">Top Rated</h4></a>
+            <a href="" onclick={setFilterValue}><h4 if={props.langue == "fr"} id="movie" title="popular">Popularité</h4><h4 if={props.langue == "en-US"} id="movie" title="popular">Popular</h4></a>
+            <a href="" onclick={setFilterValue}><h4 if={props.langue == "fr"} id="movie" title="coming_soon">À venir</h4><h4 if={props.langue == "en-US"} id="movie" title="coming_soon">Coming Soon</h4></a>
+            <a href="" onclick={setFilterValue}><h4 if={props.langue == "fr"} id="movie" title="now">À l'affiche</h4><h4 if={props.langue == "en-US"} id="movie" title="now">Now Playing</h4></a>
+        </div>
+        <div class="footer-part">
+            <a href="" onclick={setFilterValue}><h4 if={props.langue == "fr"} id="tv" title="top_rated">Notes</h4><h4 if={props.langue == "en-US"} id="tv" title="top_rated">Top Rated</h4></a>
+            <a href="" onclick={setFilterValue}><h4 if={props.langue == "fr"} id="tv" title="popular">Popularité</h4><h4 if={props.langue == "en-US"} id="tv" title="popular">Popular</h4></a>
+            <a href="" onclick={setFilterValue}><h4 if={props.langue == "fr"} id="tv" title="coming_soon">À venir</h4><h4 if={props.langue == "en-US"} id="tv" title="coming_soon">Coming Soon</h4></a>
+            <a href="" onclick={setFilterValue}><h4 if={props.langue == "fr"} id="tv" title="now">À l'affiche</h4><h4 if={props.langue == "en-US"} id="tv" title="now">Now Playing</h4></a>
+        </div>
+        <div class="last-footer-column footer-part">
+            <h4 id="void"></h4><h4 id="void"></h4><h4 id="void"></h4><h4 id="void"></h4>
+        </div>
+    </div>
+    <div class="white-bar"></div>
+    <div class="wrapper">
+        <div class="footer-rights">
+            <h5>@ 2024 Nolan Toussaint</h5>
+            <h5>France</h5>
+        </div>
+        <div class="footer-logos">
+            <a href=""><img src="img/twitter.png"></a>
+            <a href=""><img src="img/facebook.png"></a>
+            <a href=""><img src="img/instagram.png"></a>
+        </div>
+    </div>
+
+    <script>
+        export default {
+            setFilterValue(e) {
+                localStorage.removeItem("search");
+                localStorage.setItem("curr_page", 1);
+                localStorage.setItem("type", e.target.id);
+                localStorage.setItem('currfilter', e.target.title);
+                localStorage.setItem("genders", JSON.stringify([]));
+                this.props.updateCinneList();
+                this.scrollHome();
+            },
+
+            setFilter(e) {
+                switch(e.target.id) {
+                    case "all" :
+                        localStorage.setItem("type", "movie");
+                        break
+                    case "movie" :
+                        localStorage.setItem("type", "movie");
+                        break
+                    case "tv" :
+                        localStorage.setItem("type", "tv");
+                        break
+                    case "artist" :
+                        localStorage.setItem("type", "artist");
+                        localStorage.setItem("currfilter", "");
+                        break
+                }
+                localStorage.removeItem("search");
+                localStorage.setItem("curr_page", 1);
+                localStorage.setItem("genders", JSON.stringify([]));
+                this.props.updateCinneList();
+                this.scrollHome();
+            },
+
+            scrollHome() {
+                $('html,body').animate({scrollTop: $("#home").offset().top}, 'fast');
+            }
+        }
+    </script>
+</my-footer>

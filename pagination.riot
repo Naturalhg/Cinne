@@ -1,0 +1,153 @@
+<pagination>
+    <div class="filters">
+        <button onclick={FirstPage} id="first"><<</button>
+        <button onclick={PreviousPage} id="-1"><</button>
+        <button id="pending-before" class="pending">...</button>
+        <button class="current">{props.currentPageNum}</button>
+        <button onclick={NextPage} id="+1">{props.currentPageNum+1}</button>
+        <button onclick={NextPage} id="+2">{props.currentPageNum+2}</button>
+        <button id="pending-after" class="pending">...</button>
+        <button onclick={NextPage} id="next">></button>
+        <button onclick={LastPage} id="last">>></button>
+    </div>
+
+    <script>
+        export default {
+            onUpdated(props, state) {
+                this.testPages();
+            },
+
+            testPages() {
+                let currentPage = localStorage.getItem('curr_page');
+                let maxPage = 500;
+                if (!this.props.maxPageNum) {
+                    maxPage = 500;
+                } else { maxPage = this.props.maxPageNum; }
+
+                document.getElementById("first").className = "";
+                document.getElementById("-1").className = "";
+                document.getElementById("pending-before").className = "pending";
+                document.getElementById("+1").className = "";
+                document.getElementById("+2").className = "";
+                document.getElementById("pending-after").className = "pending";
+                document.getElementById("next").className = "";
+                document.getElementById("last").className = "";
+
+                if (currentPage == 1) {
+                    document.getElementById("first").classList.add("none");
+                    document.getElementById("-1").classList.add("none");
+                    document.getElementById("pending-before").classList.add("none");
+                    if (maxPage == 1) {
+                        document.getElementById("+1").classList.add("none");
+                        document.getElementById("+2").classList.add("none");
+                        document.getElementById("pending-after").classList.add("none");
+                        document.getElementById("next").classList.add("none");
+                        document.getElementById("last").classList.add("none");
+                    } else if (maxPage == 2) {
+                        document.getElementById("+2").classList.add("none");
+                        document.getElementById("pending-after").classList.add("none");
+                        document.getElementById("last").classList.add("none");
+                    } else if (maxPage == 3) {
+                        document.getElementById("pending-after").classList.add("none");
+                    }
+                }
+                else if (currentPage == 2) {
+                    document.getElementById("first").classList.add("none");
+                    document.getElementById("-1").classList.remove("none");
+                    document.getElementById("pending-before").classList.add("none");
+                    if (maxPage == 2) {
+                        document.getElementById("+1").classList.add("none");
+                        document.getElementById("+2").classList.add("none");
+                        document.getElementById("pending-after").classList.add("none");
+                        document.getElementById("next").classList.add("none");
+                        document.getElementById("last").classList.add("none");
+                    } else if (maxPage == 3) {
+                        document.getElementById("+2").classList.add("none");
+                        document.getElementById("pending-after").classList.add("none");
+                        document.getElementById("last").classList.add("none");
+                    }
+                }
+                else if (currentPage == 3) {
+                    document.getElementById("first").classList.remove("none");
+                    document.getElementById("pending-before").classList.remove("none");
+                    if (maxPage == 3) {
+                        document.getElementById("+1").classList.add("none");
+                        document.getElementById("+2").classList.add("none");
+                        document.getElementById("pending-after").classList.add("none");
+                        document.getElementById("next").classList.add("none");
+                        document.getElementById("last").classList.add("none");
+                    }
+                }
+                else if (currentPage == 500-1 || currentPage == maxPage-1) {
+                    document.getElementById("+1").classList.remove("none");
+                    document.getElementById("+2").classList.add("none");
+                    document.getElementById("pending-after").classList.add("none");
+                    document.getElementById("next").classList.remove("none");
+                    document.getElementById("last").classList.add("none");
+                }
+                else if (currentPage == 500 || currentPage == maxPage) {
+                    document.getElementById("+1").classList.add("none");
+                    document.getElementById("+2").classList.add("none");
+                    document.getElementById("pending-after").classList.add("none");
+                    document.getElementById("next").classList.add("none");
+                    document.getElementById("last").classList.add("none");
+                }
+            },
+
+            PreviousPage() {
+                if (this.props.currentPageNum > 1) {
+                    localStorage.setItem('curr_page', this.props.currentPageNum-1);
+                }
+
+                else {
+                    if (this.props.maxPageNum > 500) {
+                        localStorage.setItem('curr_page', 500);
+                    }
+                    else {
+                        localStorage.setItem('curr_page', this.props.maxPageNum);
+                    }
+                }
+                this.props.updateCinneList();
+                this.testPages();
+            },
+
+            NextPage(e) {
+                if (e.target.id == "+2") {
+                    if (this.props.currentPageNum+2 < this.props.maxPageNum && this.props.currentPageNum+2 < 500) {
+                        localStorage.setItem('curr_page', this.props.currentPageNum+2);
+                    }
+                }
+
+                else if (this.props.currentPageNum < this.props.maxPageNum && this.props.currentPageNum < 500) {
+                    localStorage.setItem('curr_page', this.props.currentPageNum+1);
+                }
+
+                else {
+                    localStorage.setItem('curr_page', 1);
+                }
+                this.props.updateCinneList();
+                this.testPages();
+            },
+
+            LastPage() {
+                if (this.props.maxPageNum <= 500) {
+                    localStorage.setItem('curr_page', this.props.maxPageNum);
+                    this.state.currentPage = this.state.maxPage;
+                }
+
+                else {
+                    localStorage.setItem('curr_page', 500);
+                    this.state.currentPage = 500;
+                }
+                this.props.updateCinneList();
+                this.testPages();
+            },
+
+            FirstPage() {
+                localStorage.setItem('curr_page', 1);
+                this.props.updateCinneList();
+                this.testPages();
+            }
+        }
+    </script>
+</pagination>
